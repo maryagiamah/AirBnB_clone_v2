@@ -30,7 +30,8 @@ class HBNBCommand(cmd.Cmd):
              'latitude': float, 'longitude': float,
              'name': str, 'state_id': str, 'user_id': str,
              'description': str, 'text': str, 'amenity_ids': list,
-             'place_id': str, 'city_id': str
+             'place_id': str, 'city_id': str, 'email': str,
+             'password': str, 'first_name': str, 'last_name': str
             }
 
     def preloop(self):

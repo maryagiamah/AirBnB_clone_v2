@@ -15,8 +15,7 @@ else:
 class BaseModel:
     """A base class for all hbnb models"""
 
-    from models import store_typ
-    if store_typ == "db":
+    if store_typ == 'db':
         id = Column(String(60), primary_key=True, nullable=False)
         created_at = Column(
                 DateTime, nullable=False,
@@ -31,14 +30,23 @@ class BaseModel:
         """Instatntiates a new model"""
         if not kwargs:
             self.id = str(uuid.uuid4())
-            self.created_at = datetime.utcnow()
-            self.updated_at = datetime.now()
+            if store_typ != db:
+                self.created_at = datetime.utcnow()
+                self.updated_at = datetime.utcnow()
         else:
-            kwargs['updated_at'] = datetime.strptime(kwargs['updated_at'],
-                                                     '%Y-%m-%dT%H:%M:%S.%f')
-            kwargs['created_at'] = datetime.strptime(kwargs['created_at'],
-                                                     '%Y-%m-%dT%H:%M:%S.%f')
-            del kwargs['__class__']
+            if store_typ != 'db':
+                kwargs['updated_at'] = datetime.strptime(
+                        kwargs['updated_at'],
+                        '%Y-%m-%dT%H:%M:%S.%f'
+                    )
+                kwargs['created_at'] = datetime.strptime(
+                        kwargs['created_at'],
+                        '%Y-%m-%dT%H:%M:%S.%f'
+                    )
+                del kwargs['__class__']
+            else:
+                if "id" not in kwargs.keys():
+                    kwargs['id'] = str(uuid.uuid4())
             self.__dict__.update(kwargs)
 
     def __str__(self):

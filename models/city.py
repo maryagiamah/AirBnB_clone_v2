@@ -8,9 +8,10 @@ from models import store_typ
 
 class City(BaseModel, Base):
     """ The city class, contains state ID and name """
-    __tablename__ = "cities"
 
     if store_typ == 'db':
+        __tablename__ = "cities"
+
         state_id = Column(
                 String(60),
                 ForeignKey('states.id'),

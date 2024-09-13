@@ -30,7 +30,7 @@ class BaseModel:
         """Instatntiates a new model"""
         if not kwargs:
             self.id = str(uuid.uuid4())
-            if store_typ != db:
+            if store_typ != 'db':
                 self.created_at = datetime.utcnow()
                 self.updated_at = datetime.utcnow()
         else:

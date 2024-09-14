@@ -27,7 +27,7 @@ ln -sf /data/web_static/releases/test /data/web_static/current
 sudo su <<EOF
 echo "Hi there" > /data/web_static/releases/test/index.html
 
-chown -R root:root /data/
+chown -R ubuntu:ubuntu /data/
 
 sed -i '/server_name _;/a\\
         location /hbnb_static {\\

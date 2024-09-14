@@ -30,8 +30,8 @@ echo "Hi there" > /data/web_static/releases/test/index.html
 chown -R ubuntu:ubuntu /data/
 
 sed -i '/server_name _;/a\\
-        location /hbnb_static {\\
-                alias /data/web_static/current;\\
+        location /hbnb_static/ {\\
+                alias /data/web_static/current/;\\
         }\\
 ' /etc/nginx/sites-enabled/default
 EOF

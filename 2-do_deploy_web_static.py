@@ -1,5 +1,7 @@
+#!/usr/bin/python3
 from fabric.api import env, put, sudo
 import os
+"""distributes an archive to your web servers"""
 
 
 def do_deploy(archive_path):

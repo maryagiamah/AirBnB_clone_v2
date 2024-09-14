@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+# Sets up your web servers for the deployment of web_static
 if ! dpkg -l | grep -q "^ii  nginx"
 then
     sudo apt-get update

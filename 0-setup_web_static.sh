@@ -22,9 +22,9 @@ do
     fi
 done
 
+sudo su <<EOF
 ln -sf /data/web_static/releases/test /data/web_static/current
 
-sudo su <<EOF
 echo "Hi there" > /data/web_static/releases/test/index.html
 
 chown -R ubuntu:ubuntu /data/

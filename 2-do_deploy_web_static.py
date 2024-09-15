@@ -14,7 +14,6 @@ def do_deploy(archive_path):
     if not os.path.exists(archive_path):
         return False
     try:
-        env.hosts = ['ubuntu@54.175.134.91', 'ubuntu@100.25.104.180']
         arch_name = archive_path.split('/')[-1]
         arch_wext = arch_name.split('.')[0]
 

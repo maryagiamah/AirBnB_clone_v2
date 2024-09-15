@@ -1,8 +1,11 @@
 #!/usr/bin/python3
+"""distributes an archive to your web servers"""
 from fabric.api import env, put, sudo
 import os
 
-"""distributes an archive to your web servers"""
+env.hosts = ['54.175.134.91', '100.25.104.180']
+env.user = 'ubuntu'
+env.key_filename = '~/.ssh/school'
 
 
 def do_deploy(archive_path):
@@ -12,7 +15,6 @@ def do_deploy(archive_path):
         return False
     try:
         env.hosts = ['ubuntu@54.175.134.91', 'ubuntu@100.25.104.180']
-        env.key_filename = '~/.ssh/school'
         arch_name = archive_path.split('/')[-1]
         arch_wext = arch_name.split('.')[0]
 

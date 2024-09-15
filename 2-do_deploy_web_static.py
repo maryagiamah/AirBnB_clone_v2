@@ -18,7 +18,7 @@ def do_deploy(archive_path):
         arch_name = archive_path.split('/')[-1]
         arch_wext = arch_name.split('.')[0]
 
-        put(archive_path, f"/tmp/{arch_name}")
+        put(archive_path, f"/tmp/")
         sudo(f"mkdir -p /data/web_static/releases/{arch_wext}/")
         sudo(f"tar -xzf /tmp/{arch_name} -C \
                 /data/web_static/releases/{arch_wext}/")

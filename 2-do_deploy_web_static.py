@@ -1,31 +1,48 @@
 #!/usr/bin/python3
-"""distributes an archive to your web servers"""
-from fabric.api import env, put, sudo
-import os
+from fabric.api import env, put, run
+from os.path import exists
 
-env.hosts = ['54.175.134.91', '100.25.104.180']
-env.user = 'ubuntu'
-env.key_filename = '~/.ssh/id_rsa'
+# Define your servers' IPs
+env.hosts = ['100.25.104.180', '54.175.134.91']
 
 
 def do_deploy(archive_path):
-    """Deploys the archive to the web servers"""
+    """Distributes an archive to web servers"""
 
-    if not os.path.exists(archive_path):
+    # Check if archive exists
+    if not exists(archive_path):
         return False
-    try:
-        arch_name = archive_path.split('/')[-1]
-        arch_wext = arch_name.split('.')[0]
-        path = '/data/web_static/releases/'
 
-        put(archive_path, "/tmp/")
-        sudo(f"mkdir -p {path}{arch_wext}")
-        sudo(f"tar -xzf /tmp/{arch_name} -C {path}{arch_wext}")
-        sudo(f"rm /tmp/{arch_name}")
-        sudo(f"mv {path}{arch_wext}/web_static/* {path}{arch_wext}")
-        sudo(f"rm -rf {path}{arch_wext}/web_static")
-        sudo("rm -rf /data/web_static/current")
-        sudo(f"ln -s {path}{arch_wext} /data/web_static/current")
+    try:
+        # Extract filename and folder name
+        filename = archive_path.split('/')[-1]
+        no_ext = filename.split('.')[0]
+        release_path = f"/data/web_static/releases/{no_ext}"
+
+        # Upload the archive to the /tmp/ directory
+        put(archive_path, '/tmp/')
+
+        # Create the release folder
+        run(f'mkdir -p {release_path}/')
+
+        # Uncompress the archive into the release folder
+        run(f'tar -xzf /tmp/{filename} -C {release_path}/')
+
+        # Remove the archive from the server
+        run(f'rm /tmp/{filename}')
+
+        # Move the extracted files out of the web_static folder
+        run(f'mv {release_path}/web_static/* {release_path}/')
+
+        # Remove the now-empty web_static folder
+        run(f'rm -rf {release_path}/web_static')
+
+        # Remove the old symbolic link
+        run('rm -rf /data/web_static/current')
+
+        # Create a new symbolic link
+        run(f'ln -s {release_path} /data/web_static/current')
+
         return True
-    except Exception as e:
+    except Exception:
         return False

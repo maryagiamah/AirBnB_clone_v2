@@ -4,6 +4,7 @@ from os.path import exists
 
 # Define your servers' IPs
 env.hosts = ['100.25.104.180', '54.175.134.91']
+env.user = 'ubuntu'
 
 
 def do_deploy(archive_path):
@@ -23,25 +24,25 @@ def do_deploy(archive_path):
         put(archive_path, '/tmp/')
 
         # Create the release folder
-        run(f'mkdir -p {release_path}/')
+        run(f' sudo mkdir -p {release_path}/')
 
         # Uncompress the archive into the release folder
-        run(f'tar -xzf /tmp/{filename} -C {release_path}/')
+        run(f'sudo tar -xzf /tmp/{filename} -C {release_path}/')
 
         # Remove the archive from the server
-        run(f'rm /tmp/{filename}')
+        run(f'sudo rm /tmp/{filename}')
 
         # Move the extracted files out of the web_static folder
-        run(f'mv {release_path}/web_static/* {release_path}/')
+        run(f'sudo mv {release_path}/web_static/* {release_path}/')
 
         # Remove the now-empty web_static folder
-        run(f'rm -rf {release_path}/web_static')
+        run(f'sudo rm -rf {release_path}/web_static')
 
         # Remove the old symbolic link
-        run('rm -rf /data/web_static/current')
+        run('sudo rm -rf /data/web_static/current')
 
         # Create a new symbolic link
-        run(f'ln -s {release_path} /data/web_static/current')
+        run(f'sudo ln -s {release_path} /data/web_static/current')
 
         return True
     except Exception:

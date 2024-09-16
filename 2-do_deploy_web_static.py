@@ -14,7 +14,7 @@ def do_deploy(archive_path):
 
         arch_name = archive_path.split('/')[-1]
         arch_wext = arch_name.split('.')[0]
-        path = '/data/web_static/releases/'
+        path = '/data/web_static/releases/web_static_'
     try:
         put(archive_path, "/tmp/")
         run(f"mkdir -p {path}{arch_wext}/")

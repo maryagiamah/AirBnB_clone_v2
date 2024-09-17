@@ -3,10 +3,6 @@
 from fabric.api import *
 import os
 
-env.hosts = ['54.175.134.91', '100.25.104.180']
-env.user = 'ubuntu'
-
-
 def do_deploy(archive_path):
     """Deploys the archive to the web servers"""
 
@@ -17,15 +13,14 @@ def do_deploy(archive_path):
     arch_wext = arch_name.split('.')[0]
     path = '/data/web_static/releases/'
     try:
-        put(archive_path, "/tmp/")
-        run(f"mkdir -p {path}{arch_wext}/")
-        run(f"tar -xzf /tmp/{arch_name} -C {path}{arch_wext}/")
-        run(f"sudo chown -R ubuntu:ubuntu {path}{arch_wext}/")
-        run(f"rm /tmp/{arch_name}")
-        run(f"mv {path}{arch_wext}/web_static/* {path}{arch_wext}/")
-        run(f"rm -rf {path}{arch_wext}/web_static")
-        run("rm -rf /data/web_static/current")
-        run(f"ln -s {path}{arch_wext} /data/web_static/current")
+        local("mv archive_path /tmp/")
+        local(f"mkdir -p {path}{arch_wext}/")
+        local(f"tar -xzf /tmp/{arch_name} -C {path}{arch_wext}/")
+        local(f"rm /tmp/{arch_name}")
+        local(f"mv {path}{arch_wext}/web_static/* {path}{arch_wext}/")
+        local(f"rm -rf {path}{arch_wext}/web_static")
+        local("rm -rf /data/web_static/current")
+        local(f"ln -s {path}{arch_wext} /data/web_static/current")
     except Exception as e:
         return False
     return True

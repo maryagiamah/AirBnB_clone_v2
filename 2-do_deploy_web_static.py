@@ -1,29 +1,31 @@
 #!/usr/bin/python3
-"""
-Fabric script based on the file 1-pack_web_static.py that distributes an
-archive to the web servers
-"""
+"""distributes an archive to your web servers"""
+from fabric.api import *
+import os
 
-from fabric.api import put, run, env
-from os.path import exists
 env.hosts = ['54.175.134.91', '100.25.104.180']
+env.user = 'ubuntu'
+
 
 def do_deploy(archive_path):
-    """distributes an archive to the web servers"""
-    if exists(archive_path) is False:
+    """Deploys the archive to the web servers"""
+
+    if os.path.exists(archive_path) is False:
         return False
+
+    arch_name = archive_path.split('/')[-1]
+    arch_wext = arch_name.split('.')[0]
+    path = '/data/web_static/releases/'
     try:
-        file_n = archive_path.split("/")[-1]
-        no_ext = file_n.split(".")[0]
-        path = "/data/web_static/releases/"
-        put(archive_path, '/tmp/')
-        run('mkdir -p {}{}/'.format(path, no_ext))
-        run('tar -xzf /tmp/{} -C {}{}/'.format(file_n, path, no_ext))
-        run('rm /tmp/{}'.format(file_n))
-        run('mv {0}{1}/web_static/* {0}{1}/'.format(path, no_ext))
-        run('rm -rf {}{}/web_static'.format(path, no_ext))
-        run('rm -rf /data/web_static/current')
-        run('ln -s {}{}/ /data/web_static/current'.format(path, no_ext))
-        return True
-    except:
+        put(archive_path, "/tmp/")
+        run(f"mkdir -p {path}{arch_wext}/")
+        run(f"tar -xzf /tmp/{arch_name} -C {path}{arch_wext}/")
+        run(f"sudo chown -R ubuntu:ubuntu {path}{arch_wext}/")
+        run(f"rm /tmp/{arch_name}")
+        run(f"mv {path}{arch_wext}/web_static/* {path}{arch_wext}/")
+        run(f"rm -rf {path}{arch_wext}/web_static")
+        run("rm -rf /data/web_static/current")
+        run(f"ln -s {path}{arch_wext} /data/web_static/current")
+    except Exception as e:
         return False
+    return True

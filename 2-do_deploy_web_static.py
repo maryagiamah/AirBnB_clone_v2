@@ -20,11 +20,13 @@ def do_deploy(archive_path):
         put(archive_path, "/tmp/")
         sudo(f"mkdir -p {path}{arch_wext}/")
         sudo(f"tar -xzf /tmp/{arch_name} -C {path}{arch_wext}/")
+        sudo(f"chown -R ubuntu:ubuntu /data/")
         sudo(f"rm /tmp/{arch_name}")
         sudo(f"mv {path}{arch_wext}/web_static/* {path}{arch_wext}/")
         sudo(f"rm -rf {path}{arch_wext}/web_static")
         sudo("rm -rf /data/web_static/current")
         sudo(f"ln -s {path}{arch_wext} /data/web_static/current")
     except Exception as e:
+        print(e)
         return False
     return True

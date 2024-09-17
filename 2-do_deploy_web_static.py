@@ -3,6 +3,7 @@
 from fabric.api import *
 import os
 
+
 def do_deploy(archive_path):
     """Deploys the archive to the web servers"""
 

@@ -12,7 +12,6 @@ do_deploy = __import__('2-do_deploy_web_static').do_deploy
 
 def deploy():
     """Deploy"""
-
     res = do_pack()
 
     if res is None:

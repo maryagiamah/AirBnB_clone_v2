@@ -20,7 +20,7 @@ def do_deploy(archive_path):
         put(archive_path, "/tmp/")
         run(f"mkdir -p {path}{arch_wext}/")
         run(f"tar -xzf /tmp/{arch_name} -C {path}{arch_wext}/")
-        run(f"chown -R ubuntu:ubuntu {path}{arch_wext}/")
+        run(f"sudo chown -R ubuntu:ubuntu {path}{arch_wext}/")
         run(f"rm /tmp/{arch_name}")
         run(f"mv {path}{arch_wext}/web_static/* {path}{arch_wext}/")
         run(f"rm -rf {path}{arch_wext}/web_static")

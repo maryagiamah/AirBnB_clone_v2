@@ -34,7 +34,7 @@ def py_text(text="is cool"):
 def n_int(n):
     """Integer"""
     if type(n) is int:
-        return f"{n}"
+        return f"{n} is a number"
 
 
 if __name__ == '__main__':

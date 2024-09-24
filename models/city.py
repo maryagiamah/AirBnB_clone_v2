@@ -18,10 +18,10 @@ class City(BaseModel, Base):
                 nullable=False
             )
         name = Column(String(128), nullable=False)
-        places = relationship(
-                'Place',
-                backref=backref('cities', cascade='all')
-            )
+#        places = relationship(
+#                'Place',
+#                backref=backref('cities', cascade='all')
+#            )
     else:
         state_id = ""
         name = ""

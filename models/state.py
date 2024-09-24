@@ -12,7 +12,13 @@ class State(BaseModel, Base):
 
     if store_typ == 'db':
         name = Column(String(128), nullable=False)
-        cities = relationship('City', backref=backref('state', cascade='all'))
+        cities = relationship(
+                'City',
+                backref=backref(
+                    'state',
+                    cascade='all'
+                )
+            )
     else:
         name = ""
 

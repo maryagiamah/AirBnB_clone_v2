@@ -28,26 +28,21 @@ class BaseModel:
 
     def __init__(self, *args, **kwargs):
         """Instatntiates a new model"""
-        if not kwargs:
-            self.id = str(uuid.uuid4())
-            if store_typ != 'db':
-                self.created_at = datetime.utcnow()
-                self.updated_at = datetime.utcnow()
-        else:
-            if store_typ != 'db':
-                kwargs['updated_at'] = datetime.strptime(
-                        kwargs['updated_at'],
-                        '%Y-%m-%dT%H:%M:%S.%f'
-                    )
-                kwargs['created_at'] = datetime.strptime(
-                        kwargs['created_at'],
-                        '%Y-%m-%dT%H:%M:%S.%f'
-                    )
-                del kwargs['__class__']
-            else:
-                if "id" not in kwargs.keys():
-                    kwargs['id'] = str(uuid.uuid4())
+        if store_typ == 'fs':
+            self.created_at = datetime.utcnow()
+            self.updated_at = datetime.utcnow()
+
+        self.id = str(uuid.uuid4())
+        for k, v in kwargs.items():
+            if k == '__class__':
+                continue
+
             self.__dict__.update(kwargs)
+            if k in ['updated_at', 'created_at'] and type(v) is str:
+                kwargs[k] = datetime.strptime(
+                        kwargs[k],
+                        '%Y-%m-%dT%H:%M:%S.%f'
+                    )
 
     def __str__(self):
         """Returns a string representation of the instance"""

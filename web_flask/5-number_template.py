@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """Flask web application"""
 
-from flask import Flask
+from flask import Flask, render_template
 app = Flask(__name__)
 
 
@@ -35,6 +35,12 @@ def n_int(n):
     """Integer"""
     if type(n) is int:
         return f"{n} is a number"
+
+
+@app.route('/number_template/<int:n>', strict_slashes=False)
+def temp_ifInt(n):
+    if type(n) is int:
+        return render_template('5-number.html', n=n)
 
 
 if __name__ == '__main__':

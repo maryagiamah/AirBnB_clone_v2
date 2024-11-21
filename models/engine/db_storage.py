@@ -5,9 +5,9 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import scoped_session
 from models.base_model import BaseModel, Base
 from models.user import User
-# from models.place import Place
+from models.place import Place
 from models.amenity import Amenity
-# from models.review import Review
+from models.review import Review
 from models.state import State
 from models.city import City
 
@@ -18,11 +18,14 @@ class DBStorage:
     __engine = None
     __session = None
     classes = {
-                    'State': State,
-                    'City': City,
-                    'User': User,
-                    'Amenity': Amenity,
-                  }
+            'Base': Base,
+            'State': State,
+            'City': City,
+            'User': User,
+            'Place': Place,
+            'Review': Review,
+            'Amenity': Amenity,
+        }
 
     def __init__(self):
         """Create Engine"""
